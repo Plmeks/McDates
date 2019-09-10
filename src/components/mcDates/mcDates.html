@@ -1,13 +1,24 @@
-<md-datepicker
-    ng-model="$ctrl.now"
-    md-hide-icons="calendar"
-    md-placeholder="Начиная с даты"
->
-</md-datepicker>
-
-<md-datepicker
-    ng-model="$ctrl.now"
-    md-hide-icons="calendar"
-    md-placeholder="Заканчивая датой"
->
-</md-datepicker>
+<md-input-container>
+    <label>С:</label>
+    <md-datepicker
+        ng-model="$ctrl.dateFrom"
+        ng-change="$ctrl.onDateChange()"
+        md-hide-icons="calendar"
+    >
+    </md-datepicker>
+</md-input-container>
+<md-input-container>
+    <label>По:</label>
+    <md-datepicker
+        ng-model="$ctrl.dateTo"
+        md-hide-icons="calendar"
+        ng-change="$ctrl.onDateChange()"
+        md-min-date="$ctrl.minDate"
+    >
+    </md-datepicker>
+</md-input-container>
+<p ng-click="$ctrl.predefinedDates('yesterday')">Вчера</p>
+<p ng-click="$ctrl.predefinedDates('today')">Сегодня</p>
+<p ng-click="$ctrl.predefinedDates('twoWeeks')">2 недели</p>
+<p ng-click="$ctrl.predefinedDates('month')">Месяц</p>
+<p ng-click="$ctrl.predefinedDates('all')">Все</p>
