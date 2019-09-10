@@ -9,8 +9,9 @@ module.exports = {
             use: 'ts-loader',
             exclude: /node_modules/
         }, {
-          test: /\.css$/,
-          use: ['style-loader', 'css-loader']
+          test: /\.html$/,
+          use: 'html-loader',
+          exclude: /node_modules/
         }]
     },
     resolve: {
@@ -18,6 +19,6 @@ module.exports = {
     },
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, './public')
+        path: path.resolve(__dirname, './public/scripts')
     }
 };
