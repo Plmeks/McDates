@@ -1,18 +1,27 @@
 <!DOCTYPE html>
-<html lang="ru" ng-app="mcDatesApp">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Мой класс - Компонент выбора дат McDates</title>
 </head>
-<body>
-        <div>
-            <label>Name:</label>
-            <input type="text" ng-model="yourName" placeholder="Enter a name here">
-            <hr>
-            <h1>Hello {{yourName}}!</h1>
-        </div>
+<body ng-cloak>
+        <md-content ng-controller="McDatesController" layout-padding>
+            <md-datepicker
+                ng-model="now"
+                md-hide-icons="calendar"
+                md-placeholder="Начиная с даты"
+            >
+            </md-datepicker>
+
+            <md-datepicker
+                ng-model="now"
+                md-hide-icons="calendar"
+                md-placeholder="Заканчивая датой"
+            >
+            </md-datepicker>
+        </md-content>
     <script src="./bundle.js"></script>
 </body>
 </html>
