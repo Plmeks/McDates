@@ -2,7 +2,9 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: path.join(__dirname, './src/app.ts'),
+    entry: {
+        app: path.join(__dirname, './src/app.ts')
+    },
     module: {
         rules: [{
             test: /\.tsx?$/,
@@ -18,7 +20,13 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js']
     },
     output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, './public/scripts')
+        filename: '[name].bundle.js',
+        path: path.resolve(__dirname, './public/scripts'),
+        chunkFilename: 'chunks/[name].js'
+    },
+    optimization: {
+        splitChunks: {
+          chunks: 'all'
+        }
     }
 };

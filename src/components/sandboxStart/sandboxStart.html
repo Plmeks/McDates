@@ -1,6 +1,8 @@
 <div
     class="sandbox-container"
-    flex="50"
+    flex="45"
+    flex-sm="70"
+    flex-xs="100"
     md-whiteframe="1"
 >
     <md-toolbar class="md-primary">
@@ -16,6 +18,8 @@
         ></mc-dates>
 
         <div class="additionalInputs">
+            <!-- TODO: сделать нормальную проверку в аттрибуте с новым плагином маски,
+            у которого не будет багов при такой проверке -->
             <md-input-container ng-if="$ctrl.isMaskEnabled">
                 <label>Дата начала</label>
                 <input
