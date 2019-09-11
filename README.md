@@ -17,7 +17,7 @@
 
     // если хотим собрать проект и запустить через http-сервер:
 
-    sudo npm install
+    sudo npm install --unsafe-perm
 
     // алтернативно:
     // sudo yarn install
