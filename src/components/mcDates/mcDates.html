@@ -1,24 +1,37 @@
-<md-input-container>
-    <label>С:</label>
-    <md-datepicker
-        ng-model="$ctrl.dateFrom"
-        ng-change="$ctrl.onDateChange()"
-        md-hide-icons="calendar"
-    >
-    </md-datepicker>
-</md-input-container>
-<md-input-container>
-    <label>По:</label>
-    <md-datepicker
-        ng-model="$ctrl.dateTo"
-        md-hide-icons="calendar"
-        ng-change="$ctrl.onDateChange()"
-        md-min-date="$ctrl.minDate"
-    >
-    </md-datepicker>
-</md-input-container>
-<p ng-click="$ctrl.predefinedDates('yesterday')">Вчера</p>
-<p ng-click="$ctrl.predefinedDates('today')">Сегодня</p>
-<p ng-click="$ctrl.predefinedDates('twoWeeks')">2 недели</p>
-<p ng-click="$ctrl.predefinedDates('month')">Месяц</p>
-<p ng-click="$ctrl.predefinedDates('all')">Все</p>
+<div class="datepicker-container">
+    <md-input-container>
+        <label>С:</label>
+        <md-datepicker
+            ng-model="$ctrl.pickerDateFrom"
+            ng-model-options="{ debounce: 0 }"
+            ng-change="$ctrl.onDateChange('dateFrom')"
+            md-hide-icons="calendar"
+            onkeydown="return false"
+            md-open-on-focus
+        >
+        </md-datepicker>
+    </md-input-container>
+
+    <md-input-container>
+        <label>По:</label>
+        <md-datepicker
+            ng-model="$ctrl.pickerDateTo"
+            md-hide-icons="calendar"
+            ng-change="$ctrl.onDateChange('dateTo')"
+            md-min-date="$ctrl.minFromToDate"
+            onkeydown="return false"
+            md-open-on-focus
+        >
+        </md-datepicker>
+    </md-input-container>
+
+    <div class="pre-dates">
+        <ul>
+            <li ng-click="$ctrl.predefinedDates('yesterday')">Вчера</li>
+            <li ng-click="$ctrl.predefinedDates('today')">Сегодня</li>
+            <li ng-click="$ctrl.predefinedDates('twoWeeks')">2 недели</li>
+            <li ng-click="$ctrl.predefinedDates('month')">Месяц</li>
+            <li ng-click="$ctrl.predefinedDates('all')">Все</li>
+        </ul>
+    </div>
+</div>

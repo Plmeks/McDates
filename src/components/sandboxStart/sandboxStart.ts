@@ -1,46 +1,48 @@
 import moment from 'moment';
 
+/**
+ * @ngInject
+ */
 export class SandboxStart {
-    static componentName: string = "sandboxStart";
+    static componentName: string = 'sandboxStart';
 
     static componentConfig: ng.IComponentOptions = {
         controller: SandboxStart,
         template: require('./sandboxStart.html')
     };
 
-    private _dateFrom: string;
-    get dateFrom(): string {
-        return this._dateFrom;
-    }
-    set dateFrom(newDate: string) {
-        this._dateFrom = this.formatDate(newDate);
+    private dateFrom: string;
+    private dateTo: string;
+
+    private isAlertEnabled: boolean = true;
+    private isMaskEnabled: boolean = true;
+
+    private $mdDialog:angular.material.IDialogService;
+
+    constructor($mdDialog:angular.material.IDialogService) {
+        this.$mdDialog = $mdDialog;
+        this.dateFrom = this.dateTo = moment().format('YYYY-MM-DD');
     }
 
-    private _dateTo: string;
-    get dateTo() {
-        return this._dateTo;
-    }
-    set dateTo(newDate: string) {
-        this._dateTo = this.formatDate(newDate);
-    }
+    changeDates() {
+        if (this.isAlertEnabled) {
+            const alertDateFormat = 'DD.MM.YYYY';
+            const content = `
+                Дата начала: ${this.dateFrom ? moment(this.dateFrom).format(alertDateFormat) : 'Не указана'}. <br>
+                Дата окончания: ${this.dateTo ? moment(this.dateTo).format(alertDateFormat) : 'Не указана'}.
+            `;
 
-    private formatString: string = 'YYYY-MM-DD';
-
-    constructor() {
-        this._dateFrom = this._dateTo = moment().format(this.formatString);
+            this.openAlertDialog(content);
+        }
     }
 
-    showNewDates(newDateFrom: string, newDateTo: string) {
-        // setTimeout(_ => {
-        //     alert(`
-        //         New date from: ${this.formatDate(newDateFrom)}.
-        //         New date to: ${this.formatDate(newDateTo)}.`
-        //     );
-        // }, 200);
-    }
-
-    formatDate(dateString?: string) {
-        return dateString ? moment(dateString).format(this.formatString):
-            '';
+    openAlertDialog(message: string) {
+        this.$mdDialog.show(
+            this.$mdDialog.alert()
+              .clickOutsideToClose(true)
+              .title('Новые данные по дате')
+              .htmlContent(message)
+              .ok('Ок')
+          );
     }
 }

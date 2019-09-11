@@ -5,21 +5,57 @@
 >
     <md-toolbar class="md-primary">
         <div class="md-toolbar-tools" layout-align="center center">
-            <h2 class="md-flex">Mc. Dates Component</h2>
+            <h2 class="md-flex">Компонент McDates</h2>
         </div>
     </md-toolbar>
     <md-content layout-padding>
-        <mc-dates date-from="$ctrl.dateFrom" date-to="$ctrl.dateTo" mc-change="$ctrl.showNewDates(newDateFrom, newDateTo)"></mc-dates>
-        <div>
-            <md-input-container>
+        <mc-dates
+            date-from="$ctrl.dateFrom"
+            date-to="$ctrl.dateTo"
+            mc-change="$ctrl.changeDates()"
+        ></mc-dates>
+
+        <div class="additionalInputs">
+            <md-input-container ng-if="$ctrl.isMaskEnabled">
+                <label>Дата начала</label>
+                <input
+                    ng-model="$ctrl.dateFrom"
+                    restrict="reject"
+                    mask="9999-19-39"
+                />
+            </md-input-container>
+            <md-input-container ng-if="!$ctrl.isMaskEnabled">
                 <label>Дата начала</label>
                 <input ng-model="$ctrl.dateFrom" />
             </md-input-container>
         
-            <md-input-container>
+            <md-input-container ng-if="$ctrl.isMaskEnabled">
                 <label>Дата окончания</label>
-                <input ng-model="$ctrl.dateTo" />
+                <input ng-if="$ctrl.isMaskEnabled"
+                    ng-model="$ctrl.dateTo"
+                    restrict="reject"
+                    mask="9999-19-39"
+                />
             </md-input-container>
+            <md-input-container ng-if="!$ctrl.isMaskEnabled">
+                <label>Дата окончания</label>
+                <input ng-model="$ctrl.dateTo"/>
+            </md-input-container>
+        </div>
+
+        <div class="checkboxContainer">
+            <md-checkbox
+                ng-model="$ctrl.isAlertEnabled"
+                class="md-primary"
+            >
+                Показывать alert
+            </md-checkbox>
+            <md-checkbox
+                ng-model="$ctrl.isMaskEnabled"
+                class="md-primary"
+            >
+                Маска для inputs
+            </md-checkbox>
         </div>
     </md-content>
 </div>
