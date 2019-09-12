@@ -96,8 +96,8 @@ export class McDatesComponent {
 
     onDateChange(dateType?: DateTypes) {
         if (dateType == DateTypes.From || !dateType) {
-            this.changeMinDate();
             this.dateFrom = this.pickerDateFrom ? moment(this.pickerDateFrom).format(this.dateFormat) : '';
+            this.changeMinDate();
         }
 
         if (dateType == DateTypes.To || !dateType) {
@@ -111,34 +111,47 @@ export class McDatesComponent {
     }
 
     changeMinDate() {
-        this.minDateTo = moment(this.pickerDateFrom).toDate();
-
         if (moment(this.pickerDateFrom) > moment(this.pickerDateTo)) {
-            this.dateTo = moment(this.pickerDateFrom).format(this.dateFormat);
+            this.pickerDateTo = moment(this.pickerDateFrom).toDate();
         }
+
+        this.minDateTo = moment(this.dateFrom || '').toDate();
+    }
+
+    setDateToOnTodayCorrectly(date: string) {
+        // баг с задержкой валидации в md-datepicker
+        this.$timeout(() => {
+            this.dateTo = date;
+        });
     }
 
     selectPredefined(type: PredefinedDates) {
         switch (type) {
             case PredefinedDates.Yesterday:
-                this.pickerDateFrom = this.pickerDateTo = moment().subtract(1, 'days').format();
+                this.dateFrom = moment().subtract(1, 'days').format(this.dateFormat);
+
+                this.setDateToOnTodayCorrectly(this.dateFrom);
                 break;
             case PredefinedDates.Today:
-                this.pickerDateFrom = this.pickerDateTo = moment().format();
+                this.dateFrom = moment().format(this.dateFormat);
+
+                this.setDateToOnTodayCorrectly(this.dateFrom);
                 break;
             case PredefinedDates.TwoWeeks:
-                this.pickerDateFrom = moment().subtract(14, 'days').format();
-                this.pickerDateTo = moment().format();
+                this.pickerDateFrom = moment().subtract(14, 'days').toDate();
+
+                this.setDateToOnTodayCorrectly(moment().format(this.dateFormat));
                 break;
             case PredefinedDates.Month:
-                this.pickerDateFrom = moment().subtract(1, 'month').format();
-                this.pickerDateTo = moment().format();
+                this.dateFrom = moment().subtract(1, 'month').format(this.dateFormat);
+
+                this.setDateToOnTodayCorrectly(moment().format(this.dateFormat));
                 break;
             case PredefinedDates.All:
-                this.pickerDateFrom = this.pickerDateTo = '';
+                this.dateFrom = this.dateTo = '';
                 break;
-            default:
         }
+
         this.onDateChange();
     }
 }

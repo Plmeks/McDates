@@ -5,8 +5,6 @@
             ng-model="$ctrl.pickerDateFrom"
             ng-change="$ctrl.onDateChange($ctrl.dateTypes.From)"
             md-hide-icons="calendar"
-            onkeydown="return false"
-            md-open-on-focus
         >
         </md-datepicker>
     </md-input-container>
@@ -18,8 +16,6 @@
             md-hide-icons="calendar"
             ng-change="$ctrl.onDateChange($ctrl.dateTypes.To)"
             md-min-date="$ctrl.minDateTo"
-            onkeydown="return false"
-            md-open-on-focus
         >
         </md-datepicker>
     </md-input-container>
