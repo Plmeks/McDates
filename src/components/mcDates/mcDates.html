@@ -3,8 +3,7 @@
         <label>С:</label>
         <md-datepicker
             ng-model="$ctrl.pickerDateFrom"
-            ng-model-options="{ debounce: 0 }"
-            ng-change="$ctrl.onDateChange('dateFrom')"
+            ng-change="$ctrl.onDateChange($ctrl.dateTypes.From)"
             md-hide-icons="calendar"
             onkeydown="return false"
             md-open-on-focus
@@ -17,8 +16,8 @@
         <md-datepicker
             ng-model="$ctrl.pickerDateTo"
             md-hide-icons="calendar"
-            ng-change="$ctrl.onDateChange('dateTo')"
-            md-min-date="$ctrl.minFromToDate"
+            ng-change="$ctrl.onDateChange($ctrl.dateTypes.To)"
+            md-min-date="$ctrl.minDateTo"
             onkeydown="return false"
             md-open-on-focus
         >
@@ -27,11 +26,11 @@
 
     <div class="pre-dates">
         <ul>
-            <li ng-click="$ctrl.predefinedDates('yesterday')">Вчера</li>
-            <li ng-click="$ctrl.predefinedDates('today')">Сегодня</li>
-            <li ng-click="$ctrl.predefinedDates('twoWeeks')">2 недели</li>
-            <li ng-click="$ctrl.predefinedDates('month')">Месяц</li>
-            <li ng-click="$ctrl.predefinedDates('all')">Все</li>
+            <li ng-click="$ctrl.selectPredefined($ctrl.predefinedDates.Yesterday)">Вчера</li>
+            <li ng-click="$ctrl.selectPredefined($ctrl.predefinedDates.Today)">Сегодня</li>
+            <li ng-click="$ctrl.selectPredefined($ctrl.predefinedDates.TwoWeeks)">2 недели</li>
+            <li ng-click="$ctrl.selectPredefined($ctrl.predefinedDates.Month)">Месяц</li>
+            <li ng-click="$ctrl.selectPredefined($ctrl.predefinedDates.All)">Все</li>
         </ul>
     </div>
 </div>

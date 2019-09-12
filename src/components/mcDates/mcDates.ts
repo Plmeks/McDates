@@ -1,16 +1,16 @@
 import moment from 'moment';
 
 enum DateTypes {
-    From = 'dateFrom',
-    To = 'dateTo'
+    From,
+    To
 }
 
-enum PredefinedTypes {
-    Yesterday = 'yesterday',
-    Today = 'today',
-    TwoWeeks = 'twoWeeks',
-    Month = 'month',
-    All = 'all'
+enum PredefinedDates {
+    Yesterday,
+    Today,
+    TwoWeeks,
+    Month,
+    All
 }
 
 /**
@@ -31,7 +31,8 @@ export class McDatesComponent {
 
     private pickerDateFrom: Date | string;
     private pickerDateTo: Date | string;
-    private minFromToDate: Date;
+    private minDateTo: Date;
+    private dateFormat: string = 'YYYY-MM-DD';
 
     private _dateFrom: string | null;
     get dateFrom() {
@@ -66,14 +67,22 @@ export class McDatesComponent {
     
     private $timeout: angular.ITimeoutService;
 
+    get dateTypes() {
+        return DateTypes;
+    }
+
+    get predefinedDates() {
+        return PredefinedDates;
+    }
+
     constructor($timeout: angular.ITimeoutService) {
         this.$timeout = $timeout;
         this._dateFrom = this._dateTo = '';
-        this.pickerDateFrom = this.pickerDateTo = this.minFromToDate = moment().toDate();
+        this.pickerDateFrom = this.pickerDateTo = this.minDateTo = moment().toDate();
     }
 
     handleDateForPicker(incomingDate: string | null): Date | null {
-        const momentDate = moment(incomingDate || '', 'YYYY-MM-DD');
+        const momentDate = moment(incomingDate || '', this.dateFormat);
 
         if (momentDate.isValid()) {
             return momentDate.toDate();
@@ -86,18 +95,13 @@ export class McDatesComponent {
     mcChange() {}
 
     onDateChange(dateType?: DateTypes) {
-        const dateFormat = 'YYYY-MM-DD';
-
         if (dateType == DateTypes.From || !dateType) {
-            this.minFromToDate = moment(this.pickerDateFrom).toDate();
-            if (moment(this.pickerDateFrom) > moment(this.pickerDateTo)) {
-                this.dateTo = moment(this.pickerDateFrom).format(dateFormat);
-            }
-            this.dateFrom = this.pickerDateFrom ? moment(this.pickerDateFrom).format(dateFormat) : '';
+            this.changeMinDate();
+            this.dateFrom = this.pickerDateFrom ? moment(this.pickerDateFrom).format(this.dateFormat) : '';
         }
 
         if (dateType == DateTypes.To || !dateType) {
-            this.dateTo = this.pickerDateTo ? moment(this.pickerDateTo).format(dateFormat) : '';
+            this.dateTo = this.pickerDateTo ? moment(this.pickerDateTo).format(this.dateFormat) : '';
         }
         
         // Когда запускется ng-change, есть задержка при обновлении модели.
@@ -106,23 +110,31 @@ export class McDatesComponent {
         });
     }
 
-    predefinedDates(type: PredefinedTypes) {
+    changeMinDate() {
+        this.minDateTo = moment(this.pickerDateFrom).toDate();
+
+        if (moment(this.pickerDateFrom) > moment(this.pickerDateTo)) {
+            this.dateTo = moment(this.pickerDateFrom).format(this.dateFormat);
+        }
+    }
+
+    selectPredefined(type: PredefinedDates) {
         switch (type) {
-            case PredefinedTypes.Yesterday:
+            case PredefinedDates.Yesterday:
                 this.pickerDateFrom = this.pickerDateTo = moment().subtract(1, 'days').format();
                 break;
-            case PredefinedTypes.Today:
+            case PredefinedDates.Today:
                 this.pickerDateFrom = this.pickerDateTo = moment().format();
                 break;
-            case PredefinedTypes.TwoWeeks:
+            case PredefinedDates.TwoWeeks:
                 this.pickerDateFrom = moment().subtract(14, 'days').format();
                 this.pickerDateTo = moment().format();
                 break;
-            case PredefinedTypes.Month:
+            case PredefinedDates.Month:
                 this.pickerDateFrom = moment().subtract(1, 'month').format();
                 this.pickerDateTo = moment().format();
                 break;
-            case PredefinedTypes.All:
+            case PredefinedDates.All:
                 this.pickerDateFrom = this.pickerDateTo = '';
                 break;
             default:
