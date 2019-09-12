@@ -24,6 +24,18 @@
     md-input-container {
         margin-bottom: 0px;
     
+        .md-datepicker-input-container {
+            &.md-datepicker-invalid {
+                border-bottom: 1px solid rgb(221,44,0) !important;
+                &.md-datepicker-focused {
+                    border-bottom-width: 2px !important;
+                }
+                input {
+                    border: none !important;
+                }
+            }
+        }
+
         .md-errors-spacer {
             display: none;
         }

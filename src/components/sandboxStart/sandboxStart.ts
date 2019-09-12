@@ -11,8 +11,8 @@ export class SandboxStart {
         template: require('./sandboxStart.html')
     };
 
-    private dateFrom: string;
-    private dateTo: string;
+    private dateFrom: string | null
+    private dateTo: string | null;
 
     private isAlertEnabled: boolean = true;
     private isMaskEnabled: boolean = true;

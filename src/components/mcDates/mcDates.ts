@@ -77,7 +77,7 @@ export class McDatesComponent {
 
     constructor($timeout: angular.ITimeoutService) {
         this.$timeout = $timeout;
-        this._dateFrom = this._dateTo = '';
+        this._dateFrom = this._dateTo = null;
         this.pickerDateFrom = this.pickerDateTo = this.minDateTo = moment().toDate();
     }
 
@@ -118,7 +118,7 @@ export class McDatesComponent {
         this.minDateTo = moment(this.dateFrom || '').toDate();
     }
 
-    setDateToOnTodayCorrectly(date: string) {
+    setCorrectlyDateToOnToday(date: string) {
         // баг с задержкой валидации в md-datepicker
         this.$timeout(() => {
             this.dateTo = date;
@@ -129,26 +129,23 @@ export class McDatesComponent {
         switch (type) {
             case PredefinedDates.Yesterday:
                 this.dateFrom = moment().subtract(1, 'days').format(this.dateFormat);
-
-                this.setDateToOnTodayCorrectly(this.dateFrom);
+                this.setCorrectlyDateToOnToday(this.dateFrom);
                 break;
             case PredefinedDates.Today:
                 this.dateFrom = moment().format(this.dateFormat);
-
-                this.setDateToOnTodayCorrectly(this.dateFrom);
+                this.setCorrectlyDateToOnToday(this.dateFrom);
                 break;
             case PredefinedDates.TwoWeeks:
                 this.pickerDateFrom = moment().subtract(14, 'days').toDate();
-
-                this.setDateToOnTodayCorrectly(moment().format(this.dateFormat));
+                this.setCorrectlyDateToOnToday(moment().format(this.dateFormat));
                 break;
             case PredefinedDates.Month:
                 this.dateFrom = moment().subtract(1, 'month').format(this.dateFormat);
-
-                this.setDateToOnTodayCorrectly(moment().format(this.dateFormat));
+                this.setCorrectlyDateToOnToday(moment().format(this.dateFormat));
                 break;
             case PredefinedDates.All:
-                this.dateFrom = this.dateTo = '';
+                this.dateFrom = '';
+                this.setCorrectlyDateToOnToday('');
                 break;
         }
 
